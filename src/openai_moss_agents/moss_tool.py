@@ -224,8 +224,9 @@ class MOSSProtocolTool:
                 TextPOM(
                     title="MOSS Protocol Tool",
                     content=MOSS_META_PROMPT,
+                ).with_children(
+                    moss_pom,
                 ),
-                moss_pom,
                 TextPOM(
                     title="Instruction",
                     content=agent_instructions,

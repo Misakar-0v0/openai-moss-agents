@@ -21,4 +21,4 @@ agent = Agent(
 )
 
 if __name__ == "__main__":
-    asyncio.run(run_console_agent(agent))
+    asyncio.run(run_console_agent(agent, "what operating system are you in?"))

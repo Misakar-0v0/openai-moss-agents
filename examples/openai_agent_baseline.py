@@ -3,6 +3,7 @@ import asyncio
 from agents import Runner, Agent
 from openai_moss_agents.moss_tool import MOSSProtocolTool
 from openai_moss_agents.example_moss_libs import math_lib
+from openai_moss_agents.rich_console import run_console_agent
 
 
 async def main():
@@ -16,17 +17,12 @@ async def main():
     agent = Agent(
         name="jojo",
         instructions=instruction,
-        model="gpt-4-turbo",
+        model="gpt-4",
         tools=[tool.as_agent_tool()]
     )
 
-    result = Runner.run_streamed(agent, "hello, (12343 + 293439) * 1220 = ?")
-    async for event in result.stream_events():
-        print(event)
-
-    return result.final_output
+    await run_console_agent(agent)
 
 
 if __name__ == "__main__":
-    r = asyncio.run(main())
-    print(r)
+    asyncio.run(main())

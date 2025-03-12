@@ -18,6 +18,9 @@ _container: Optional[Container] = None
 
 
 def get_container() -> Container:
+    """
+    get global ioc container
+    """
     global _container
     if _container is None:
         container = Container(name="langchain-moss")
@@ -28,23 +31,35 @@ def get_container() -> Container:
 
 
 def set_container(container: Container) -> None:
+    """
+    set global ioc container
+    """
     global _container
     _container = container
 
 
 def bootstrap_container(container: Container) -> None:
+    """
+    bootstrap a container and set it as global ioc container
+    :param container:
+    """
     container.bootstrap()
     set_container(container)
 
 
 def get_moss_compiler(container: Optional[Container] = None) -> MossCompiler:
+    """
+    get moss compiler from the  ioc container
+    :param container: if None, use global ioc container
+    :return: MossCompiler
+    """
     if container is None:
         container = get_container()
     return container.force_fetch(MossCompiler)
 
 
 def compile_moss_runtime(
-        modulename: str,
+        modulename: Union[str, None] = None,
         *,
         container: Optional[Container] = None,
         providers: List[Provider] = None,
@@ -53,6 +68,21 @@ def compile_moss_runtime(
         injections: Dict[str, Any] = None,
         pycontext: PyContext = None,
 ) -> MossRuntime:
+    """
+    syntax sugar to get moss runtime
+    moss compile python code to a temporary module, and can run code inside it.
+    So MossRuntime is python module level interpreter.
+
+    :param modulename: the compiled temporary modulename
+    :param container: the ioc container for moss, if none, use global ioc container
+    :param providers: the providers for MossRuntime.container() which inherit the global ioc container
+    :param bindings: set bindings to the MossRuntime.container() by key / value
+    :param local_values: replaced the compiled module's local values by key
+    :param injections: the injections for `Moss` class in the module. if none, use ioc container for dynamic injections.
+    :param pycontext: the pycontext keep the long-term variables for Moss class in the compiled module.
+                      save the pycontext at somewhere can keep the long-term variables.
+    :return:  MossRuntime to execute new code with python context.
+    """
     compiler = get_moss_compiler(container)
     if pycontext:
         compiler = compiler.join_context(pycontext)

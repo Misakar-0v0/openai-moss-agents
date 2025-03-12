@@ -8,7 +8,7 @@ from openai_moss_agents.rich_console import run_console_agent
 
 async def main():
     tool = MOSSProtocolTool(
-        math_lib.__name__,
+        modulename=math_lib.__name__,
     )
 
     instruction = tool.with_instruction("assistant for human")

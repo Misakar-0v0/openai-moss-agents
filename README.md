@@ -105,6 +105,8 @@ class Moss(Parent):
 # </moss-hide>
 ```
 
+remember to register injection providers into IoCContainer by methods in `openai_moss_agents.facade`
+
 ## What Is MOSS Protocol ?
 
 `MOSS` stands for `model-oriented operating system simulation`, which means:

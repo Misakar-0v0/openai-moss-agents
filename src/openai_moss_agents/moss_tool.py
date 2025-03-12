@@ -104,8 +104,8 @@ class MOSSProtocolTool:
 
     def __init__(
             self,
-            modulename: str,
             *,
+            modulename: str = None,
             real_modulename: Union[str] = None,
             name: str = "moss",
             description: str = (
@@ -204,7 +204,6 @@ class MOSSProtocolTool:
 
     def as_agent_tool(self) -> FunctionTool:
         params = CodeParameter.func_parameters_schema()
-        print("+++++++++++++++=", params)
         return FunctionTool(
             name=self.name,
             description=self.description,
